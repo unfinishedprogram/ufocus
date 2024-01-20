@@ -1,7 +1,4 @@
-console.log("this page is good")
+import extractContent from "./content_extractor";
 
-function makeOrange(color: string): void {
-    document.body.style.backgroundColor = color;
-}
-
-makeOrange("orange")
+console.log("Extracting content!")
+console.log(extractContent(window));

@@ -16,7 +16,7 @@ function allDocumentText(doc: Document): string[] {
 function extractMainContent(doc: Document) {
 	return removeStopwords(
 		allDocumentText(doc)
-			.flatMap(text => [...text.matchAll(/\w+/)].flatMap(m => m[0]))
+			.flatMap(text => [...text.matchAll(/\w+/g)].flatMap(m => m[0]))
 			.join(" ")
 	);
 }
@@ -25,14 +25,14 @@ function extractHeaders(doc: Document) {
 	return Object.fromEntries(
 		HEADERS.map(type => ([
 			type,
-			[...doc.querySelectorAll(type)].map(v => v.textContent!)
+			[...doc.querySelectorAll(type)].map(v => v.textContent!.trim())
 		]))
 	) as Record<typeof HEADERS[number], string[]>;
 }
 
 function extractMeta(doc: Document) {
 	const entries = [...doc.querySelectorAll("meta")]
-		.map(meta => [meta.name, meta.getAttribute("content")])
+		.map(meta => [meta.name, meta.getAttribute("content")?.trim()])
 
 	return Object.fromEntries(entries);
 }
@@ -40,7 +40,7 @@ function extractMeta(doc: Document) {
 function extractNavLinks(doc: Document) {
 	let navContainer = doc.querySelector("nav") || doc.querySelector("header") || doc;
 	const links = navContainer.querySelectorAll("a");
-	return [...links].map(({ textContent }) => textContent!);
+	return [...links].map(({ textContent }) => textContent!.trim());
 }
 
 // Extracts important content from raw dom handle
