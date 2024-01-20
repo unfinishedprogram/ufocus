@@ -128,5 +128,5 @@ const STOP_WORDS = new Set(["i",
 ]);
 
 export function removeStopwords(text: string): string {
-    return text.split(/\s/).filter(word => !STOP_WORDS.has(word)).join(" ")
+    return text.split(/\s/).filter(word => !STOP_WORDS.has(word.toLowerCase())).join(" ")
 }
