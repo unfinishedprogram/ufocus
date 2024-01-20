@@ -5,3 +5,8 @@
 .dial>.dial_circle_center {
     filter: drop-shadow(0 0 0.25rem rgba(0, 0, 0, 0.2)) drop-shadow(0 0 0.25rem var(--glow-color));
 }
+
+.dial {
+    overflow: visible;
+    user-select: none;
+}
