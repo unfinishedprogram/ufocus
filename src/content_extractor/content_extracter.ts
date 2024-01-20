@@ -40,7 +40,7 @@ function extractMeta(doc: Document) {
 function extractNavLinks(doc: Document) {
 	let navContainer = doc.querySelector("nav") || doc.querySelector("header") || doc;
 	const links = navContainer.querySelectorAll("a");
-	return [...links].map(({ href, textContent }) => textContent!);
+	return [...links].map(({ textContent }) => textContent!);
 }
 
 // Extracts important content from raw dom handle
