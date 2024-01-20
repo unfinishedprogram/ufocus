@@ -31,6 +31,11 @@ chrome.runtime.onMessage.addListener(
 );
 
 async function handleExtractedContent(content: ExtractedContent, sendResponse: (message: any) => void) {
+    const body = JSON.stringify({
+        page_body: content.main_content,
+        user_agent: CURRENT_FOCUS_TASK
+    });
+    console.log(body);
     const response = await fetch(QUERY_API,
         {
             method: "POST",
@@ -38,15 +43,11 @@ async function handleExtractedContent(content: ExtractedContent, sendResponse: (
                 "access-control-request-headers": "content-type",
                 "Content-Type": "application/json; charset=utf8"
             },
-            body: JSON.stringify({
-                page_body: content.main_content,
-                user_agent: CURRENT_FOCUS_TASK
-            },
-            )
+            body
         });
-    console.log(response);
     if (!response.ok) {
-        console.log(await response.text());
+        sendResponse(await response.text());
+        return;
     }
     sendResponse(await response.json());
 
