@@ -1,0 +1,19 @@
+{
+    "name": "uFocus Extension",
+    "description": "This extension is made for demonstration purposes",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "background": {
+        "service_worker": "service_worker.js"
+    },
+    "action": {
+        "default_popup": "main.html"
+    },
+    "host_permissions": [
+        "https://*/*"
+    ]
+}
