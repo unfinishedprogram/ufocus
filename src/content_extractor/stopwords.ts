@@ -1,3 +1,5 @@
+// Source: https://gist.github.com/sebleier/554280
+
 const STOP_WORDS = new Set(["i",
     "me",
     "my",
