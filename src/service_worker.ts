@@ -1,4 +1,14 @@
-const QUERY_API = "http://100.26.144.146:3000/"; // PUT THE AWS LINK
+const QUERY_API = "http://ufocus.tech:3000/streaming/evaluation"; // PUT THE AWS LINK
+const CURRENT_FOCUS_TASK = "I'm a software engineer trying to implement AWS in terraform";
+
+let active = false;
+
+
+// initial app state
+chrome.runtime.onInstalled.addListener(() => {
+    active = false;
+})
+
 // inject script on each tab switch
 // chrome.tabs.onActivated.addListener((tab) => {
 //     chrome.scripting.executeScript({
@@ -33,6 +43,8 @@ async function handleExtractedContent(content: string, sendResponse: (message: a
     const body = JSON.stringify({
         user_agent,
         page_body: content,
+        // user_agent: CURRENT_FOCUS_TASK,
+        request_id: "1",
     });
 
     const response = await fetch(QUERY_API,
