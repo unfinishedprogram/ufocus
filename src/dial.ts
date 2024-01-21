@@ -31,9 +31,9 @@ function makeArrow() {
     return arrow;
 }
 
-
+const scale = 2;
 export default class Dial {
-    $_colors_main: [Color, Color, Color] = [[255, 0, 0], [255, 255, 0], [0, 255, 0]];
+    $_colors_main: [Color, Color, Color] = [[0xD1, 0x3B, 0x3B], [0xD5, 0x99, 0x52], [0x52, 0xA5, 0x6C]];
     $_colors_faint: [Color, Color, Color] = [[255, 128, 128], [255, 255, 128], [128, 255, 128]];
     $_percent: number = 0;
 
@@ -41,8 +41,8 @@ export default class Dial {
     $_svg_text_elm = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     element = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
-    $size = 96;
-    $radius = 30;
+    $size = 96 * scale;
+    $radius = 30 * scale;
     $stroke_width = this.$size / 8;
 
     $circle_center = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -54,7 +54,7 @@ export default class Dial {
 
 
     constructor() {
-        const padding = 32;
+        const padding = 32 * scale;
 
         this.element.setAttribute('width', `${this.$size + padding}`);
         this.element.setAttribute('height', `${this.$size + padding}`);
