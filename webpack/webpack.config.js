@@ -6,6 +6,7 @@ module.exports = {
         service_worker: path.resolve(__dirname, "..", "src", "service_worker.ts"),
         popup: path.resolve(__dirname, "..", "src", "popup.ts"),
         protector: path.resolve(__dirname, "..", "src", "protector.ts"),
+        jira: path.resolve(__dirname, "..", "src", "add-ons", "jira.ts"),
     },
     output: {
         path: path.join(__dirname, "../dist"),

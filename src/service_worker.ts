@@ -28,15 +28,15 @@ chrome.runtime.onMessage.addListener(
 );
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.status != 'complete') {
-    return;
-  }
+    if (changeInfo.status != 'complete') {
+        return;
+    }
 
-  chrome.scripting.executeScript({
-      target: { tabId },
+    chrome.scripting.executeScript({
+        target: { tabId },
 
-      files: ["protector.js"]
-  })
+        files: ["protector.js"]
+    })
 
 });
 
