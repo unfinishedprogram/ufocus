@@ -111,7 +111,6 @@ export default class Dial {
         this.$threshold_text.setAttribute('font-size', `${this.$size / 8}`);
         this.$threshold_text.setAttribute("font-family", "sans-serif");
 
-
         this.$threshold_arrow.addEventListener("mousedown", (evt) => {
             const update_pos = (evt: MouseEvent) => {
                 // Translate the mouse position to svg relative position 
