@@ -23,7 +23,17 @@ function tryFocusButton() {
     const focusButton = document.createElement("button");
     focusButton.textContent = "uFocus";
     focusButton.id = "uFocusButton";
-    buttonRow?.appendChild(focusButton);
+    focusButton.addEventListener("click", () => {
+        const title = getTicketTitle();
+        console.log("Here it the title", title);
+    })
+    buttonRow?.prepend(focusButton);
+
+}
+
+function getTicketTitle() {
+    const selector = "h1[data-testid='issue.views.issue-base.foundation.summary.heading']";
+    return document.querySelector(selector)?.textContent
 }
 
 function initialWatch() {
