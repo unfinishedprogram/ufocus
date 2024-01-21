@@ -150,7 +150,7 @@ export default class Dial {
         this.threshold = 0.8;
 
         chrome.storage.local.get(["block_threshold", "relevance"], (result) => {
-            console.log(result);
+            console.log("local:", result);
             if (result.block_threshold) {
                 this.threshold = result.block_threshold;
             }
@@ -159,7 +159,6 @@ export default class Dial {
                 this.percent = result.relevance / 100;
             }
         });
-
     }
 
     set threshold(value: number) {

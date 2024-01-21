@@ -22,11 +22,15 @@ async function main() {
 }
 
 async function processResult(result: RelevanceQueryResult) {
-    let threashold = (await chrome.storage.local.get("block_threashold"))["block_threashold"] || 80;
+    let threashold = (await chrome.storage.local.get("block_threshold"))["block_threshold"] || 80;
+    chrome.storage.local.set({ relevance: result.relevance });
 
     console.log("processing result");
     console.table(result);
-    if (result.relevance < threashold) {
+
+    console.log(threashold)
+
+    if (result.relevance < threashold * 100) {
         blockPage();
     }
 }
