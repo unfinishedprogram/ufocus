@@ -22,11 +22,29 @@ async function main() {
 }
 
 function processResult(result: RelevanceQueryResult) {
-    console.log("processing result");
-    console.table(result);
-    // if (result.score < 6) {
+  console.log("processing result");
+  console.table(result);
+  if (result.relevance < 6) {
     blockPage();
-    // }
+  }
+}
+
+async function fetchCompleteResult() {
+    const body = JSON.stringify({
+        request_id: "1",
+    });
+    console.log(body);
+    const response = await fetch("http://localhost:3000/streaming/complete",
+        {
+            method: "POST",
+            headers: {
+                "access-control-request-headers": "content-type",
+                "Content-Type": "application/json; charset=utf8"
+            },
+            body
+        });
+
+    console.log(await response.json())
 }
 
 function blockPage() {

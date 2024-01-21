@@ -1,4 +1,4 @@
-const QUERY_API = "http://100.26.144.146:3000/"; // PUT THE AWS LINK
+const QUERY_API = "http://ufocus.tech:3000/streaming/evaluation"; // PUT THE AWS LINK
 const CURRENT_FOCUS_TASK = "I'm a software engineer trying to implement AWS in terraform";
 
 let active = false;
@@ -43,7 +43,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 async function handleExtractedContent(content: string, sendResponse: (message: any) => void) {
     const body = JSON.stringify({
         page_body: content,
-        user_agent: CURRENT_FOCUS_TASK
+        user_agent: CURRENT_FOCUS_TASK,
+        request_id: "1",
     });
     console.log(body);
     const response = await fetch(QUERY_API,
