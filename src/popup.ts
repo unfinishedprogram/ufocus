@@ -10,7 +10,7 @@ async function setupProfiles() {
 
     console.log("current");
     console.log(current);
-    document.getElementById("current_profile")!.innerHTML = current.name;
+    document.getElementById("current_profile")!.innerHTML = current?.name;
     console.log(document.getElementById("current_profile"));
 
     let manager = new ProfileManager();
