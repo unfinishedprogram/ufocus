@@ -10,7 +10,7 @@ async function setupProfiles() {
 
     console.log("current");
     console.log(current);
-    document.getElementById("current_profile")!.innerHTML = current.name;
+    document.getElementById("current_profile")!.innerHTML = current?.name;
     console.log(document.getElementById("current_profile"));
 
     let manager = new ProfileManager();
@@ -44,6 +44,3 @@ function initializeNav() {
 initializeNav();
 
 document.querySelector("#spinner")?.appendChild(dial.element);
-setInterval(() => {
-    dial.percent = Math.random();
-}, 1000)

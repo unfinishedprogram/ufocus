@@ -13,15 +13,29 @@ export default class ProfileManager {
         this.$container_elm.appendChild(this.$profile_list);
         this.load_profiles();
         chrome.storage.local.get("selected_profile")
-          .then(profile => {
-            this.$selected_profile = profile.selected_profile as Profile
-            this.render_profile_list(this.$profiles);
-          });
+            .then(profile => {
+                this.$selected_profile = profile.selected_profile as Profile
+                this.render_profile_list(this.$profiles);
+            });
     }
 
     async load_profiles() {
         const profiles = await chrome.storage.local.get("profiles");
         this.$profiles = profiles["profiles"] || [];
+        if (this.$profiles.length == 0) {
+            const default_profile = {
+                name: "Default",
+                persona: "A normal person, trying to avoid time-wasting activities",
+                uuid: crypto.randomUUID(),
+            };
+            this.$profiles = [
+                default_profile
+            ];
+
+            await chrome.storage.local.set({ profiles: this.$profiles });
+
+            this.select_profile(default_profile)
+        }
         this.render_profile_list(this.$profiles);
     }
 
@@ -57,7 +71,7 @@ export default class ProfileManager {
         profile_elm.classList.add("profile");
 
         if (this.$selected_profile?.name == profile.name) {
-          profile_elm.classList.add("selected")
+            profile_elm.classList.add("selected")
         }
 
         let profile_name = document.createElement("div");
