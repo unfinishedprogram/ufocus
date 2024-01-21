@@ -1,5 +1,5 @@
 export type RelevanceQueryResult = {
-    score: number,
-    keywords: string[],
-    reason: string
+    relevance: number,
+    // keywords: string[],
+    // reason: string
 }
