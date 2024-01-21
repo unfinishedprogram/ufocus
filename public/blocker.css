@@ -21,6 +21,11 @@
   backdrop-filter: blur(10px) !important;
 }
 
+#continue-button,
+#whitelist-button {
+  cursor: pointer;
+}
+
 .modal h1 {
   -webkit-text-size-adjust: 100%;
   cursor: default !important;
