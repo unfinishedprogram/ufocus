@@ -1,7 +1,20 @@
 
 import Dial from './dial';
+import ProfileManager from './profile_manager';
 
 const dial = new Dial();
+
+async function setupProfiles() {
+    let current = await chrome.storage.local.get("selected_profile");
+
+    document.getElementById("current_profile")!.innerHTML = current.title;
+
+    let manager = new ProfileManager();
+    let profile_manager = document.getElementById("page1");
+    profile_manager?.appendChild(manager.$container_elm);
+}
+
+function setupSettings() { }
 
 function initializeNav() {
     let page1_button = document.querySelector("a.nav_button1");
@@ -19,6 +32,9 @@ function initializeNav() {
     page3_button?.addEventListener("click", () =>
         document.getElementById("scroll_container")?.setAttribute("style", "--page:3")
     );
+
+    setupProfiles();
+    setupSettings();
 }
 
 initializeNav();

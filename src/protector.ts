@@ -1,41 +1,24 @@
 import { extractContent, sanitizeText } from "./content_extractor";
 import { RelevanceQueryResult } from "./types";
 
-function makeOrange(color: string): void {
-    document.body.style.backgroundColor = color;
-}
-
-function randInt(min: number, max: number) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-function randomColor() {
-    let r = randInt(0, 255);
-    let g = randInt(0, 255);
-    let b = randInt(0, 255);
-    return `rgb(${r}${g}${b})`;
-}
-
-makeOrange(randomColor())
-
 async function relevanceQuery(content: string): Promise<RelevanceQueryResult> {
-    const response = await chrome.runtime.sendMessage(content) as RelevanceQueryResult;
-    return response;
+  const response = await chrome.runtime.sendMessage(content) as RelevanceQueryResult;
+  return response;
 }
 
 async function main() {
-    const URL = window.location.href;
-    const storageKey = `uFocus-${URL}`;
-    const visited = window.localStorage.getItem(storageKey);
-    // TODO: comment this out when not testing
-    // if (visited === "true") {
-    //     return
-    // }
-    window.localStorage.setItem(storageKey, "true");
-    const content = extractContent(window);
-    const sanitizedText = sanitizeText(content);
-    const result = await relevanceQuery(sanitizedText);
-    processResult(result);
+  const URL = window.location.href;
+  const storageKey = `uFocus-${URL}`;
+  const visited = window.localStorage.getItem(storageKey);
+  // TODO: comment this out when not testing
+  // if (visited === "true") {
+  //     return
+  // }
+  window.localStorage.setItem(storageKey, "true");
+  const content = extractContent(window);
+  const sanitizedText = sanitizeText(content);
+  const result = await relevanceQuery(sanitizedText);
+  processResult(result);
 }
 
 function processResult(result: RelevanceQueryResult) {
