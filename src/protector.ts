@@ -21,12 +21,14 @@ async function main() {
   processResult(result);
 }
 
-function processResult(result: RelevanceQueryResult) {
+async function processResult(result: RelevanceQueryResult) {
+    let threashold = (await chrome.storage.local.get("block_threashold"))["block_threashold"] || 80;
+
     console.log("processing result");
     console.table(result);
-    //   if (result.relevance < 6) {
-    blockPage();
-    //   }
+    if (result.relevance < threashold) {
+        blockPage();
+    }
 }
 
 async function fetchCompleteResult() {
@@ -143,5 +145,4 @@ function blockPage() {
     div.appendChild(frameDiv);
 }
 
-console.log("processing");
 main()

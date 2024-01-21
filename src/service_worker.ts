@@ -3,6 +3,9 @@ const CURRENT_FOCUS_TASK = "I'm a software engineer trying to implement AWS in t
 
 let active = false;
 
+const tab_relevance: Record<number, number> = {};
+chrome.storage.session.set({ tab_relevance })
+
 
 // initial app state
 chrome.runtime.onInstalled.addListener(() => {
@@ -21,7 +24,8 @@ chrome.runtime.onInstalled.addListener(() => {
 // message listener for the injected script
 chrome.runtime.onMessage.addListener(
     function (request: string, sender, sendResponse) {
-        handleExtractedContent(request, sendResponse);
+        const tabId = sender.tab!.id!;
+        handleExtractedContent(request, tabId, sendResponse);
         return true;
     }
 );
@@ -37,9 +41,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     })
 });
 
-async function handleExtractedContent(content: string, sendResponse: (message: any) => void) {
+async function handleExtractedContent(content: string, tabId: number, sendResponse: (message: any) => void) {
     const user_agent = (await chrome.storage.local.get("selected_profile"))?.persona;
-
     const body = JSON.stringify({
         user_agent,
         page_body: content,
@@ -60,6 +63,9 @@ async function handleExtractedContent(content: string, sendResponse: (message: a
         sendResponse(await response.text());
         return;
     }
-    sendResponse(await response.json());
-
+    let json = await response.json();
+    json.relevance = Math.min(100, json.relevance * 10 - 5 + Math.random() * 10);
+    tab_relevance[tabId] = json.relevance;
+    chrome.storage.session.set({ tab_relevance });
+    sendResponse(json);
 }

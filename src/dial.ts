@@ -31,6 +31,8 @@ function makeArrow() {
     return arrow;
 }
 
+let block_timeout: ReturnType<typeof setTimeout>;
+
 const scale = 1.7;
 export default class Dial {
     $_colors_main: [Color, Color, Color] = [[0xD1, 0x3B, 0x3B], [0xD5, 0x99, 0x52], [0x52, 0xA5, 0x6C]];
@@ -146,6 +148,18 @@ export default class Dial {
 
         this.percent = 0;
         this.threshold = 0.8;
+
+        chrome.storage.local.get(["block_threshold", "relevance"], (result) => {
+            console.log(result);
+            if (result.block_threshold) {
+                this.threshold = result.block_threshold;
+            }
+
+            if (result.relevance) {
+                this.percent = result.relevance / 100;
+            }
+        });
+
     }
 
     set threshold(value: number) {
@@ -171,6 +185,12 @@ export default class Dial {
         } else {
             this.$threshold_text.setAttribute('text-anchor', 'start');
         }
+
+        clearTimeout(block_timeout);
+        block_timeout = setTimeout(() => {
+            chrome.storage.local.set({ block_threshold: this.$threshold });
+            console.log("Updating storage")
+        }, 100);
 
         this.$threshold_text.textContent = `${Math.ceil(this.$threshold * 100)}%`;
     }
