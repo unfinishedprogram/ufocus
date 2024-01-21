@@ -5,12 +5,18 @@ export default class ProfileManager {
 
     $container_elm: HTMLElement = document.createElement("div");
     $profile_list: HTMLElement = document.createElement("div");
+    $selected_profile: Profile | undefined = undefined;
 
     constructor() {
         this.$container_elm.setAttribute("id", "profile_manager");
         this.$profile_list.setAttribute("id", "profile_list");
         this.$container_elm.appendChild(this.$profile_list);
         this.load_profiles();
+        chrome.storage.local.get("selected_profile")
+          .then(profile => {
+            this.$selected_profile = profile.selected_profile as Profile
+            this.render_profile_list(this.$profiles);
+          });
     }
 
     async load_profiles() {
@@ -42,11 +48,17 @@ export default class ProfileManager {
 
         await chrome.storage.local.set({ selected_profile: profile });
         document.querySelector("#current_profile")!.innerHTML = profile.name;
+        this.$selected_profile = profile;
+        this.render_profile_list(this.$profiles)
     }
 
     render_profile(profile: Profile): HTMLElement {
         let profile_elm = document.createElement("div");
         profile_elm.classList.add("profile");
+
+        if (this.$selected_profile?.name == profile.name) {
+          profile_elm.classList.add("selected")
+        }
 
         let profile_name = document.createElement("div");
         profile_name.classList.add("profile_name");
@@ -56,37 +68,18 @@ export default class ProfileManager {
         profile_persona.classList.add("profile_persona");
         profile_persona.innerText = profile.persona;
 
-        let profile_topics = document.createElement("div");
-        profile_topics.classList.add("profile_topics");
-        profile_topics.innerText = profile.whitelisted_topics.join(", ");
+        profile_elm.addEventListener("click", () => this.select_profile(profile));
 
-        // Button to select this profile
-        let select_button = document.createElement("button");
-        select_button.innerText = "Select";
-        select_button.addEventListener("click", () => this.select_profile(profile));
-
-        // Button to edit this profile
-        let edit_button = document.createElement("button");
-        edit_button.innerText = "Edit";
-        edit_button.addEventListener("click", () => {
-            profile_elm.innerHTML = "";
-            profile_elm.appendChild(this.edit_profile(profile));
-        });
-
-        // Delete button
-        let delete_button = document.createElement("button");
-        delete_button.innerText = "Delete";
-        delete_button.addEventListener("click", () => {
-            this.remove_profile(profile);
-            this.load_profiles();
-        });
+        // // Delete button
+        // let delete_button = document.createElement("button");
+        // delete_button.innerText = "Delete";
+        // delete_button.addEventListener("click", () => {
+        //     this.remove_profile(profile);
+        //     this.load_profiles();
+        // });
 
         profile_elm.appendChild(profile_name);
         profile_elm.appendChild(profile_persona);
-        profile_elm.appendChild(profile_topics);
-        profile_elm.appendChild(select_button);
-        profile_elm.appendChild(edit_button);
-        profile_elm.appendChild(delete_button);
 
         return profile_elm;
     }
@@ -104,17 +97,12 @@ export default class ProfileManager {
         profile_persona.classList.add("profile_persona");
         profile_persona.value = profile.persona;
 
-        let profile_topics = document.createElement("input");
-        profile_topics.classList.add("profile_topics");
-        profile_topics.value = profile.whitelisted_topics.join(", ");
-
         let save_button = document.createElement("button");
         save_button.innerText = "Save";
 
         save_button.addEventListener("click", () => {
             profile.name = profile_name.value;
             profile.persona = profile_persona.value;
-            profile.whitelisted_topics = profile_topics.value.split(",").map(s => s.trim());
             this.save_profiles();
             this.$container_elm.innerHTML = "";
             this.$container_elm.appendChild(this.render_profile_list(this.$profiles));
@@ -122,7 +110,6 @@ export default class ProfileManager {
 
         profile_elm.appendChild(profile_name);
         profile_elm.appendChild(profile_persona);
-        profile_elm.appendChild(profile_topics);
         profile_elm.appendChild(save_button);
 
         return profile_elm;
@@ -140,10 +127,6 @@ export default class ProfileManager {
         profile_persona.classList.add("profile_persona");
         profile_persona.value = "New Persona";
 
-        let profile_topics = document.createElement("input");
-        profile_topics.classList.add("profile_topics");
-        profile_topics.value = "New Topic";
-
         let save_button = document.createElement("button");
         save_button.innerText = "Save";
 
@@ -151,8 +134,6 @@ export default class ProfileManager {
             let profile = {
                 name: profile_name.value,
                 persona: profile_persona.value,
-                whitelisted_topics: profile_topics.value.split(",").map(s => s.trim()),
-                blacklisted_topics: [],
                 uuid: crypto.randomUUID(),
             }
             this.add_profile(profile);
@@ -162,7 +143,6 @@ export default class ProfileManager {
 
         profile_elm.appendChild(profile_name);
         profile_elm.appendChild(profile_persona);
-        profile_elm.appendChild(profile_topics);
         profile_elm.appendChild(save_button);
 
         return profile_elm;

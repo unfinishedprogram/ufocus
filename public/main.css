@@ -1,5 +1,5 @@
 :root {
-    --main-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --main-font: 'Inter', Tahoma, Geneva, Verdana, sans-serif;
     --main-font-color: black;
     --accent-font-color: blue;
     --background-color: #F3EEE8;
@@ -16,13 +16,18 @@ html {
     height: 100%;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
     font-family: var(--main-font);
-    display: grid;
-    grid-template-rows: auto 1fr;
+    /* display: grid;
+    grid-template-rows: auto 1fr; */
     background-color: var(--background-color);
-    width: 300px;
-    max-height: 400px;
+    width: 410px;
+    min-height: 506px;
+    max-height: 506px;
     transition: height 0.5s ease-in-out;
 }
 
@@ -33,8 +38,9 @@ h1 {
 main {
     border-radius: 0.625rem;
     grid-template-rows: auto auto 1fr;
-    margin: 0.5rem;
+    margin: 0 auto;
     background-color: transparent;
+    width: 366px;
 }
 
 header {
@@ -55,24 +61,31 @@ header h1:last-child {
 }
 
 nav {
-    display: grid;
+  background-color: white;
+  display: flex;
+  width: 22.875rem;
+  min-height: 3.6875rem;
+  max-height: 3.6875rem;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 2.19rem;
+  border-radius: 0.3125rem;
+}
+
+/* nav {
+    /* display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     border-radius: 0.625rem;
     border-radius: 50px;
     background-color: var(--foreground-color);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    font-size: larger;
-}
+    font-size: larger; */
 
 nav>a {
-    display: inline-flex;
-    align-content: center;
-    justify-content: center;
-    padding: 0.5rem;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: 500;
+  font-size: 1.25rem;
+  font-weight: 300;
 }
 
 nav>a:hover {
@@ -100,10 +113,81 @@ nav>a:hover {
 
 #scroll_container {
     display: grid;
-    width: 900px;
-    margin-left: -300px;
-    margin-right: -300px;
-    grid-template-columns: 300px 300px 300px;
+    width: 1230px;
+    margin-left: -410px;
+    margin-right: -410px;
+    grid-template-columns: 410px 410px 410px;
     transition: transform 0.25s ease-in-out;
-    transform: translateX(calc(600px - (300px * var(--page))));
+    transform: translateX(calc(820px - (410px * var(--page))));
+}
+
+.white-wrapper {
+  background-color: white;
+  margin-top: 2rem;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 0.625rem;
+  height: 25rem;
+  align-items: center;
+  position: relative;
+  overflow: auto;
+  padding: 0.5rem 0;
+}
+
+.focusing {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-left: 1rem;
+  padding-top: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.focusing p {
+  margin: 0;
+}
+
+#current_profile {
+  color: #52A56C;
+}
+
+.profile {
+  padding: 1rem;
+  border-radius: 0.3125rem;
+  background: #FFF;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 20rem;
+}
+
+.profile.selected {
+  color: #52A56C;
+}
+
+.profile_name {
+  font-size: 1.25rem;
+}
+
+.profile_persona {
+  color: #868686;
+  font-size: 0.875rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2; 
+  -webkit-box-orient: vertical;
+}
+
+.profile.selected .profile_persona {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6; /* number of lines to show */
+  line-clamp: 6; 
+  -webkit-box-orient: vertical;
+}
+
+#profile_list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem
 }

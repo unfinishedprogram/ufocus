@@ -1,16 +1,20 @@
 
 import Dial from './dial';
 import ProfileManager from './profile_manager';
+import { Profile } from './types';
 
 const dial = new Dial();
 
 async function setupProfiles() {
-    let current = await chrome.storage.local.get("selected_profile");
+    let current = (await chrome.storage.local.get("selected_profile")).selected_profile as Profile;
 
-    document.getElementById("current_profile")!.innerHTML = current.title;
+    console.log("current");
+    console.log(current);
+    document.getElementById("current_profile")!.innerHTML = current.name;
+    console.log(document.getElementById("current_profile"));
 
     let manager = new ProfileManager();
-    let profile_manager = document.getElementById("page1");
+    let profile_manager = document.getElementById("page1-wrapper");
     profile_manager?.appendChild(manager.$container_elm);
 }
 

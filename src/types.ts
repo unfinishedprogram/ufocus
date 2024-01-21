@@ -13,7 +13,5 @@ export type RelevanceQueryRequest = {
 export type Profile = {
     uuid: string,
     name: string,
-    whitelisted_topics: string[],
-    blacklisted_topics: string[],
     persona: string,
 }
