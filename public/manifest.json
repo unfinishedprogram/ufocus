@@ -29,5 +29,11 @@
     ],
     "host_permissions": [
         "https://*/*"
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": ["*.css"],
+        "matches": ["<all_urls>"]
+      }
     ]
 }
