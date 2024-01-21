@@ -48,6 +48,11 @@ async function fetchCompleteResult() {
 }
 
 function blockPage() {
+    // If the modal is still open, don't show it again
+    if (document.querySelector("#main_modal")) {
+        return;
+    }
+
     console.log("Block page.");
     const div = document.createElement("div");
     div.classList.add("modal");
