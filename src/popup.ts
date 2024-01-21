@@ -1,15 +1,29 @@
-console.log("Hello guys");
 
 import Dial from './dial';
 
 const dial = new Dial();
 
-const slider_input = document.getElementById('slider_percent') as HTMLInputElement;
+function initializeNav() {
+    let page1_button = document.querySelector("a.nav_button1");
+    let page2_button = document.querySelector("a.nav_button2");
+    let page3_button = document.querySelector("a.nav_button3");
 
-slider_input.addEventListener('input', (e) => {
-    const value = parseInt(slider_input.value) / 100;
-    dial.percent = value;
-});
+    console.log(page1_button, page2_button, page3_button)
 
+    page1_button?.addEventListener("click", () =>
+        document.getElementById("scroll_container")?.setAttribute("style", "--page:1")
+    );
+    page2_button?.addEventListener("click", () =>
+        document.getElementById("scroll_container")?.setAttribute("style", "--page:2")
+    );
+    page3_button?.addEventListener("click", () =>
+        document.getElementById("scroll_container")?.setAttribute("style", "--page:3")
+    );
+}
 
-document.body.appendChild(dial.element);
+initializeNav();
+
+document.querySelector("#spinner")?.appendChild(dial.element);
+setInterval(() => {
+    dial.percent = Math.random();
+}, 1000)
