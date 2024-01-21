@@ -21,7 +21,6 @@ chrome.runtime.onInstalled.addListener(() => {
 // message listener for the injected script
 chrome.runtime.onMessage.addListener(
     function (request: string, sender, sendResponse) {
-
         handleExtractedContent(request, sendResponse);
         return true;
     }
@@ -34,19 +33,20 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
     chrome.scripting.executeScript({
         target: { tabId },
-
         files: ["protector.js"]
     })
-
 });
 
 async function handleExtractedContent(content: string, sendResponse: (message: any) => void) {
+    const user_agent = (await chrome.storage.local.get("selected_profile"))?.persona;
+
     const body = JSON.stringify({
+        user_agent,
         page_body: content,
-        user_agent: CURRENT_FOCUS_TASK,
+        // user_agent: CURRENT_FOCUS_TASK,
         request_id: "1",
     });
-    console.log(body);
+
     const response = await fetch(QUERY_API,
         {
             method: "POST",
