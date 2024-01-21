@@ -16,7 +16,7 @@ function randomColor() {
     let r = randInt(0, 255);
     let g = randInt(0, 255);
     let b = randInt(0, 255);
-    return `rgb(${r}${g}${b})`;
+    return `rgb(${r},${g},${b})`;
 }
 
 makeOrange(randomColor())
