@@ -31,10 +31,9 @@ h1 {
 }
 
 main {
-    padding: var(--margin);
     border-radius: 0.625rem;
     grid-template-rows: auto auto 1fr;
-    margin: 0.25rem;
+    margin: 0.5rem;
     background-color: transparent;
 }
 
@@ -88,9 +87,7 @@ nav>a:hover {
     align-items: center;
     width: fit-content;
     height: fit-content;
-    /* background-color: var(--foreground-color); */
     border-radius: 500px;
-    /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
 }
 
 #spinner_container {
@@ -99,4 +96,14 @@ nav>a:hover {
     align-items: center;
     width: 100%;
     height: 100%;
+}
+
+#scroll_container {
+    display: grid;
+    width: 900px;
+    margin-left: -300px;
+    margin-right: -300px;
+    grid-template-columns: 300px 300px 300px;
+    transition: transform 0.25s ease-in-out;
+    transform: translateX(calc(600px - (300px * var(--page))));
 }
